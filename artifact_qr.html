@@ -1,0 +1,319 @@
+
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chi tiết cổ vật • Inline CSS</title>
+  <style>
+    :root { --bg:#FFF5E9; --card:#FFFFFF; --text:#2B3340; --muted:#6B7280; --border:#E5D2BD; --accent:#D9773F; --accent2:#FB923C; }
+    *{box-sizing:border-box}
+    body{margin:0; font-family: Arial, Helvetica, sans-serif; background:var(--bg); color:var(--text);}
+    main{max-width:900px; margin:0 auto; padding:16px;}
+
+    .tab{padding:10px 14px; border-radius:999px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:700;}
+    .tab.active{background:#FDE8C9}
+
+    .btn{padding:10px 14px; border-radius:8px; background:var(--accent); color:#fff; font-weight:700; text-decoration:none; box-shadow:0 2px 6px rgba(217,119,63,.25)}
+    .btn:hover{background:#c6682f}
+
+    .panel{background:#fff; border:1px solid var(--border); border-radius:16px; box-shadow:0 6px 22px rgba(40,50,61,.08); overflow:hidden;}
+    .panel-hd{padding:12px 16px; border-bottom:1px solid var(--border); font-weight:700; color:#28323D;}
+    .muted{color:var(--muted)}
+
+    .sec{margin:12px 16px; padding:12px; border-radius:12px; background:#FFF7ED; border:1px solid #FED7AA}
+    .sec h3{margin:0 0 8px; font-weight:700; color:#92400E}
+    .controls{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+    .controls select,.controls input{padding:8px 10px; border-radius:10px; border:1px solid #FCD34D; background:#fff}
+    .btn-sm{padding:8px 12px; border-radius:10px; border:none; background:var(--accent2); color:#1F2937; font-weight:700; cursor:pointer}
+    .badge{display:inline-block; padding:4px 10px; border-radius:999px; border:1px solid #FCD34D; color:#1F2937; background:#FFFBEB}
+    .list{display:flex; flex-direction:column; gap:10px; margin-top:10px}
+    .review{background:#fff; border:1px solid #FCD34D; padding:10px; border-radius:10px}
+    .review .meta{font-size:12px; color:#6B7280; margin-bottom:6px}
+    .badge.ok{background:#ECFDF5; border-color:#34D399; color:#065F46}
+    .badge.pending{background:#EEF2FF; border-color:#818CF8; color:#3730A3}
+
+  /* Ảnh trong vùng thuyết minh */
+  .exhibit-image { margin: 10px 0 14px; text-align: center; }
+  .exhibit-image img { max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.1); }
+  .exhibit-image figcaption { font-size: .9rem; color: #555; margin-top: 6px; }
+
+</style>
+
+ <style>
+    
+/* 1) Tạo khoảng đệm chắc chắn cho khu vực thuyết minh */
+.thuyet-minh {
+  padding: 16px 20px !important;  /* tăng đệm và ưu tiên */
+  box-sizing: border-box;          /* tính padding vào chiều rộng khung */
+  line-height: 1.6;                /* chữ thoáng hơn */
+}
+
+/* 2) Nếu nội dung là các <p>, tránh margin collapse sát viền trên/dưới */
+.thuyet-minh p {
+  margin: 0 0 1em;                 /* bỏ margin trên, giữ margin dưới */
+}
+
+/* 3) Nếu bạn đang hiển thị nội dung trong <textarea> */
+.thuyet-minh textarea,
+textarea.thuyet-minh {
+  padding: 16px 20px !important;
+  line-height: 1.6;
+  border-radius: 8px;              /* nếu khung có bo góc, cho đẹp */
+}
+
+/* 4) Ảnh minh họa đặt trong khung thuyết minh */
+.exhibit-image {
+  margin: 12px 0 16px;
+}
+.exhibit-image img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.1);
+}
+
+/* 5) Nếu khung thuyết minh nằm trong một card/container có viền/bo góc */
+.card, .panel, .content-box, .thuyet-minh-wrapper {
+  padding: 16px 20px;              /* để chữ không chạm viền khung ngoài */
+  box-sizing: border-box;
+}
+
+  </style>
+
+</head>
+<body>
+  <main>
+    <!-- Header -->
+    <header style="padding:12px 0; display:flex; align-items:center; justify-content:space-between;">
+      <div>
+        <h1 style="margin:0 0 6px; font-weight:800; color:#28323D;">Chi tiết cổ vật</h1>
+        <div class="muted">Chọn ngôn ngữ và nghe thuyết minh</div>
+
+        <!-- Tabs ngôn ngữ -->
+        <div id="tabs" role="tablist" aria-label="Chọn ngôn ngữ" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
+          <button class="tab" data-lang="vi" role="tab">Tiếng Việt</button>
+          <button class="tab" data-lang="en" role="tab">English</button>
+          <button class="tab" data-lang="ko" role="tab">한국어</button>
+          <button class="tab" data-lang="zh" role="tab">中文</button>
+          <button class="tab" data-lang="fr" role="tab">Français</button>
+          <button class="tab" data-lang="ru" role="tab">Русский</button>
+        </div>
+      </div>
+
+      <!-- Nút Trở về trang chính (điều hướng cứng) -->
+      <button id="backBtn" class="btn" type="button">← Trở về trang chính</button>
+    </header>
+
+    <!-- Bố cục 1 cột (đã bỏ khối QR ở cột phải) -->
+    <div style="display:grid; grid-template-columns:1fr; gap:18px;">
+      <!-- Cột trái: Nội dung thuyết minh -->
+      <section class="panel">
+        <div class="panel-hd">Nội dung thuyết minh</div>
+        <div style="padding:16px;">
+          
+<!-- Ảnh minh hoạ cho nội dung thuyết minh -->
+<figure class="exhibit-image">
+  <img src="images/lichsu.jpg" alt="h cổ vật minh hoạ</figcaption>
+</figure>
+
+          <div id="meta"></div>
+          <p id="desc" style="line-height:1.6"></p>
+
+          
+<!-- === Âm thanh thuyết minh (giữ đúng tone cam/kem hiện có) === -->
+          <div class="audio-wrap" style="
+           margin-top:10px; background:#fff; border:1px solid #E5D2BD; border-radius:12px; padding:10px; display:flex; align-items:center; gap:12px;">
+         <!-- Nút cam ▶ của bạn vẫn giữ -->
+           <button id="playToggle" aria-label="Phát/Tạm dừng" style="
+           width:42px; height:42px; border-radius:50%; background:#D9773F; color:#fff; border:none; font-weight:800; cursor:pointer">▶</button>
+ 
+  <!-- Trình phát audio chuẩn (trình duyệt sẽ hiển thị thanh điều khiển gọn gàng) -->
+   <audio id="artifactAudio" preload="none" controls style="width:100%">
+     <source id="artifactAudioSrc" src="" type="audio/mpeg" />
+     Trình duyệt của bạn không hỗ trợ audio.
+            </audio>
+        </div>
+<!-- (giữ nguyên dòng chú thích cũ của bạn bên dưới) -->
+               
+
+          <!-- === KHỐI QUIZ NHANH === -->
+          <section id="quizSection" class="sec" aria-labelledby="quizTitle">
+            <h3 id="quizTitle">Quiz nhanh</h3>
+            <div class="controls">
+              <label for="quizAns">Câu hỏi: Bộ sưu tập hiện vật Sa Huỳnh – Chăm Pathuộc văn hoá nào?</label>
+              <select id="quizAns">
+                <option value="">— chọn —</option>
+                <option value="dongson">Đông Sơn</option>
+                <option value="sa-huynh">Sa Huỳnh</option>
+                <option value="oc-eo">Óc Eo</option>
+              </select>
+              <button id="quizSubmit" class="btn-sm">Nộp</button>
+              <span id="quizResult" class="badge" role="status" aria-live="polite"></span>
+            </div>
+          </section>
+
+          <!-- === KHỐI BÌNH LUẬN === -->
+          <section id="reviewSection" class="sec" aria-labelledby="reviewTitle">
+            <h3 id="reviewTitle">Bình luận</h3>
+            <form id="reviewForm" class="controls" onsubmit="return false;">
+              <input type="text" id="reviewText" placeholder="Viết bình luận…" aria-label="Nội dung bình luận" />
+              <button id="reviewSubmit" class="btn-sm">Gửi bình luận</button>
+            </form>
+            <div id="reviewList" class="list" aria-live="polite"></div>
+          </section>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Script: i18n, nút Trở về, Quiz & Bình luận -->
+  <script>
+  (function(){
+    const params = new URLSearchParams(location.search);
+    const currentLang = (params.get('lang')||'vi').toLowerCase();
+
+    // Tabs ngôn ngữ
+    document.querySelectorAll('#tabs .tab').forEach(btn=>{
+      if(btn.dataset.lang===currentLang){ btn.classList.add('active'); }
+      btn.addEventListener('click', ()=>{
+        const u = new URL(location.href); u.searchParams.set('lang', btn.dataset.lang); location.href = u.toString();
+      });
+    });
+
+    // ====== MÔ TẢ THEO NGÔN NGỮ ======
+    // English/Korean: dùng nguyên văn bạn gửi; French/Russian/Chinese: mình dịch tương ứng.
+    const UI = {
+      vi:{
+        meta:'<strong>Niên đại:</strong> Thế kỷ III TCN • <strong>Chất liệu:</strong> Đồng',
+        desc:'Bộ sưu tập quý giá trưng bày tại Bảo tàng Đà Nẵng là minh chứng sinh động cho lịch sử và văn hóa phong phú của khu vực. Trong tủ kính là sự kết hợp của nhiều loại cổ vật. Nổi bật có hiện vật mài bằng đá hoặc kim loại mang hình lưỡi hoặc đầu mũi tên (số 1), phản ánh giai đoạn sơ kỳ của công cụ sản xuất. Bên cạnh đó là những mảnh gốm, đồ đá (số 2), cùng các khối vật liệu lớn hơn (số 3, 4) có thể là sa thạch hoặc đất nung, gợi nhớ những nền văn hóa cổ từng hưng thịnh ở miền Trung Việt Nam như Sa Huỳnh hoặc Chăm Pa.'
+      },
+      en:{
+        meta:'<strong>Period:</strong> 3rd century BCE • <strong>Material:</strong> Bronze',
+        desc:`This collection of precious artifacts displayed at Da Nang Museum is a vivid demonstration of the region's rich history and culture. In the glass cabinet, we can see a combination of many types of antiques. Prominent are the artifacts of grinding stone or metal in the shape of a blade or arrowhead (number 1), reflecting the early stage of production tools. Besides, there are pieces of ceramics and stoneware (number 2), along with larger blocks of materials (numbers 3 and 4) that may be sandstone or terracotta, reminiscent of ancient cultures that once flourished in Central Vietnam, which may include the imprint of Sa Huynh or Cham Pa culture.`
+      },
+      ko:{
+        meta:'<strong>연대:</strong> 기원전 3세기 • <strong>재질:</strong> 청동',
+        desc:`다낭 박물관에 전시된 이 귀중한 유물 컬렉션은 이 지역의 풍부한 역사와 문화를 생생하게 보여줍니다. 유리 캐비닛에서 우리는 많은 종류의 골동품의 조합을 볼 수 있습니다. 두드러진 것은 생산 도구의 초기 단계를 반영하는 칼날이나 화살촉 모양의 돌이나 금속을 갈아 만든 유물(번호 1)입니다. 또한 도자기와 석기 조각(번호 2), 그리고 사암이나 테라코타일 수 있는 더 큰 재료 블록(번호 3, 4)이 있으며, 베트남 중부에서 한때 번성했던 고대 문화를 연상시키며 사후인 또는 참파 문화의 흔적을 포함할 수 있습니다.`
+      },
+      zh:{
+        meta:'<strong>年代：</strong>公元前3世纪 • <strong>材质：</strong>青铜',
+        desc:'在岘港博物馆展出的这批珍贵文物生动地展示了该地区丰富的历史和文化。在玻璃柜中，我们可以看到多种古董的组合。最显眼的是石头或金属制成的刀片或箭头形状的研磨器（编号1），反映了生产工具的早期阶段。此外，还有陶瓷和石器碎片（编号2），以及更大的材料块（编号3和4），可能是砂岩或陶土，让人联想到曾在越南中部繁荣的古代文化，可能包括沙黄或占婆文化的印记。'
+      },
+      fr:{
+        meta:'<strong>Période:</strong> IIIe siècle av. J.-C. • <strong>Matière:</strong> Bronze',
+        desc:'Cette collection de précieux artefacts exposés au musée de Da Nang est une démonstration vivante de la riche histoire et culture de la région. Dans la vitrine, nous pouvons voir une combinaison de nombreux types d’antiquités. Les plus remarquables sont des artefacts en pierre ou en métal en forme de lame ou de pointe de flèche (numéro 1), reflétant les débuts des outils de production. À côté, se trouvent des fragments de céramique et de vaisselle en pierre (numéro 2), ainsi que des blocs de matériaux plus grands (numéros 3 et 4) pouvant être en grès ou en terre cuite, rappelant les cultures anciennes qui ont prospéré au centre du Vietnam, incluant possiblement l’empreinte des cultures Sa Huynh ou Cham Pa.'
+      },
+      ru:{
+        meta:'<strong>Период:</strong> III век до н.э. • <strong>Материал:</strong> бронза',
+        desc:'Эта коллекция ценных артефактов, представленных в Музее Дананга, наглядно демонстрирует богатую историю и культуру региона. В стеклянной витрине видно сочетание многих разновидностей древностей. Особенно выделяются артефакты из камня или металла в форме лезвия или наконечника стрелы (№1), отражающие ранний этап производства орудий труда. Кроме того, имеются фрагменты керамики и каменной посуды (№2), а также более крупные блоки материалов (№3 и №4), которые могут быть песчаником или терракотой и напоминают древние культуры, некогда процветавшие в Центральном Вьетнаме, включая возможные следы культуры Са Хуинь или Чампа.'
+      }
+    };
+
+    const metaEl = document.getElementById('meta');
+    const descEl = document.getElementById('desc');
+    if (metaEl) metaEl.innerHTML = UI[currentLang].meta;
+    if (descEl) descEl.textContent = UI[currentLang].desc;
+
+    
+    // Nút Trở về: luôn về trang chính
+    const backBtn = document.getElementById('backBtn');
+    backBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      window.location.href = 'index_main_footer_fixed.html';
+    });
+
+    // === QUIZ ===
+    const QUIZ_KEY = 'quiz_dongson_drum_001';
+    const quizAns = document.getElementById('quizAns');
+    const quizSubmit = document.getElementById('quizSubmit');
+    const quizResult = document.getElementById('quizResult');
+    const savedQuiz = JSON.parse(localStorage.getItem(QUIZ_KEY) || '{"done":false}');
+    if (savedQuiz.done) { quizResult.textContent = 'Đã hoàn thành'; quizResult.classList.add('ok'); }
+    quizSubmit.addEventListener('click', ()=>{
+      const v = quizAns.value; if (!v) return;
+      if (v==='dongson'){ quizResult.textContent='Đúng'; quizResult.classList.add('ok'); }
+      else { quizResult.textContent='Sai'; quizResult.classList.remove('ok'); }
+      localStorage.setItem(QUIZ_KEY, JSON.stringify({done:true, lang:currentLang, at:Date.now()}));
+    });
+
+    // === BÌNH LUẬN (demo localStorage) ===
+    const REV_KEY = 'reviews_dongson_drum_001';
+    const banned = ['xấu','tục','spam'];      // lọc từ khóa mẫu
+    const reviewForm = document.getElementById('reviewForm');
+    const reviewText = document.getElementById('reviewText');
+    const reviewList = document.getElementById('reviewList');
+
+    function renderReviews(){
+      const reviews = JSON.parse(localStorage.getItem(REV_KEY) || '[]');
+      reviewList.innerHTML = '';
+      reviews.forEach(rv=>{
+        const div = document.createElement('div'); div.className='review';
+        const meta = document.createElement('div'); meta.className='meta';
+        const badge = document.createElement('span'); badge.className='badge ' + (rv.status==='approved'?'ok':'pending'); badge.textContent = rv.status;
+        meta.textContent = new Date(rv.ts).toLocaleString() + ' • ' + rv.lang.toUpperCase(); meta.appendChild(badge);
+        const content = document.createElement('div'); content.textContent = rv.text;
+        div.appendChild(meta); div.appendChild(content);
+        reviewList.appendChild(div);
+      });
+    }
+    renderReviews();
+
+    reviewForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const txt = (reviewText.value||'').trim(); if (!txt) return;
+      const isBad = banned.some(w=>txt.toLowerCase().includes(w));
+      const rv = { text: txt, lang: currentLang, status: isBad?'pending':'approved', ts: Date.now() };
+      const reviews = JSON.parse(localStorage.getItem(REV_KEY) || '[]');
+      reviews.unshift(rv); localStorage.setItem(REV_KEY, JSON.stringify(reviews));
+      reviewText.value=''; renderReviews();
+    });
+  })();
+  </script>
+  
+<script>
+(function(){
+  // Lấy ngôn ngữ từ URL (?lang=vi|en|ko|zh|fr|ru)
+  const params = new URLSearchParams(location.search);
+  const currentLang = (params.get('lang') || 'vi').toLowerCase();
+
+  // ===== BẢN ĐỒ ÂM THANH: lang -> file mp3 =====
+  // Đổi tên file đúng theo thư mục amthanh/ của bạn
+  const AUDIO_MAP = {
+    vi: '', // Tiếng Việt
+    en: 'amthanh/TA.mp3', // English
+    ko: 'amthanh/TH.mp3', // 한국어
+    fr: 'amthanh/TP.mp3', // Français
+    zh: '',               // chưa có (để trống hoặc bổ sung sau)
+    ru: ''                // chưa có (để trống hoặc bổ sung sau)
+  };
+
+  // Gán src cho audio
+  const audioEl = document.getElementById('artifactAudio');
+  const audioSrcEl = document.getElementById('artifactAudioSrc');
+  const src = AUDIO_MAP[currentLang] || AUDIO_MAP.vi; // fallback về VI nếu thiếu
+  if (audioEl && audioSrcEl) {
+    if (src) {
+      audioSrcEl.src = src;
+      audioEl.load();  // nạp lại nguồn
+    } else {
+      // Nếu chưa có file cho ngôn ngữ này, ẩn điều khiển để tránh nhầm
+      audioEl.controls = false;
+      console.warn('Chưa có audio cho ngôn ngữ:', currentLang);
+    }
+  }
+
+  // ===== Nút cam ▶ của bạn: điều khiển Play/Pause cho audio =====
+  const playBtn = document.getElementById('playToggle');
+  if (playBtn && audioEl) {
+    playBtn.addEventListener('click', () => {
+      if (audioEl.paused) { audioEl.play(); playBtn.textContent = '⏸'; }
+      else { audioEl.pause(); playBtn.textContent = '▶'; }
+    });
+    audioEl.addEventListener('ended', () => { playBtn.textContent = '▶'; });
+  }
+})();
+</script>
+</body>
+</html>

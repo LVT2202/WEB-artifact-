@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BẢO TÀNG ĐÀ NẴNG • DANANG MUSEUM</title>
+
+  <style>
+    :root{
+      --bg:#fff5ed; --bg2:#fde6c4;
+      --card:#ffffff; --text:#2B3340; --muted:#6B7280; --border:#E5D2BD;
+      --nav:#cf6a2f; --nav-border:#e9a879; --shadow:0 8px 22px rgba(40,50,61,.10);
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; background:var(--bg); color:var(--text);}
+    /* ===== Top brand line (đúng như ảnh) ===== */
+    .brand-top{background:#fbf0e3; border-bottom:1px solid #f0d7be;}
+    .brand-top .inner{max-width:1100px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; gap:10px;}
+    .brand-left{font-weight:900; letter-spacing:.6px; font-size:28px; text-transform:uppercase;}
+    .brand-right{margin-left:auto; font-weight:800; color:#9a4a2e; letter-spacing:.3px;}
+
+    /* ===== Nav cam ===== */
+    .nav-bar{background:var(--nav); border-bottom:1px solid var(--nav-border);}
+    .nav-bar .inner{max-width:1100px; margin:0 auto; padding:10px 16px; display:flex; gap:18px; align-items:center; justify-content:center;}
+    .nav-bar a{
+      color:#fff; text-decoration:none; font-weight:900; letter-spacing:.3px;
+      padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.15);
+    }
+    .nav-bar a:hover{background:rgba(255,255,255,.12);}
+
+    /* ===== Hero tiêu đề lớn ===== */
+    .hero{background:linear-gradient(180deg,#eaa06b 0%, #f0b183 60%, #f4c79b 100%); border-bottom:1px solid #e6a574;}
+    .hero .inner{max-width:1100px; margin:0 auto; padding:22px 16px; display:flex; align-items:center; justify-content:center; text-align:center;}
+    .hero-title{
+      margin:12px 0; font-size:42px; font-weight:900; letter-spacing:.8px;
+      color:#ffffff; text-shadow:0 3px 0 rgba(0,0,0,.08), 0 6px 16px rgba(0,0,0,.18);
+    }
+
+    /* ===== Content + Grid ===== */
+    main{max-width:1100px; margin:0 auto; padding:16px;}
+    .section-title{font-size:20px; font-weight:900; margin:10px 0 12px; letter-spacing:.3px;}
+
+    .artifacts{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+    @media (max-width:960px){ .artifacts{grid-template-columns:repeat(2,1fr);} }
+    @media (max-width:640px){ .artifacts{grid-template-columns:1fr;} }
+
+    .artifact-card{
+      background:var(--card); border:1px solid var(--border); border-radius:16px;
+      box-shadow:var(--shadow); overflow:hidden; display:flex; flex-direction:column;
+    }
+    .artifact-thumb{
+      width:100%; height:160px;
+      background:#f3f4f6; background-size:cover; background-position:center; background-repeat:no-repeat;
+      border-bottom:1px solid var(--border);
+    }
+    .artifact-body{padding:12px 14px; display:flex; flex-direction:column; gap:6px;}
+    .artifact-name{font-weight:800;}
+    .artifact-meta{color:var(--muted);}
+    .artifact-actions{margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;}
+    .btn{padding:8px 12px; border-radius:10px; border:1px solid var(--border); background:#fff; font-weight:700; cursor:pointer;}
+    .btn.primary{background:linear-gradient(90deg,#D9773F,#FB923C); border:none; color:#062736;}
+
+    /* ===== Footer ===== */
+    footer{background:#c96b33; color:#fff; margin-top:18px;}
+    footer .wrap{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; padding:14px 16px;}
+    .foot-title{font-weight:800; margin-bottom:6px;}
+    .foot-muted{opacity:.9;}
+    .copy{background:#a8582a; color:#fff; padding:10px 16px; text-align:right;}
+    .copy small{opacity:.85;}
+
+    /* ===== Placeholder thumbnail (xám đúng kiểu) ===== */
+    .artifact-card.placeholder .artifact-thumb{
+      background-image:linear-gradient(#eef0f3 70%, #f5f6f8 70%);
+    }
+  </style>
+
+</head>
+<body>
+
+  <!-- Top brand -->
+  <div class="brand-top">
+    <div class="inner">
+      <div class="brand-left">BẢO TÀNG ĐÀ NẴNG</div>
+      <div class="brand-right">DANANG MUSEUM</div>
+    </div>
+  </div>
+
+  <!-- Nav cam -->
+  <nav class="nav-bar" aria-label="Điều hướng">
+    <div class="inner">
+      #TRANG CHỦ</a>
+      #CỔ VẬT</a>
+      #QR ĐA NGÔN NGỮ</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" role="banner">
+    <div class="inner">
+      <h1 class="hero-title">CHỌN CỔ VẬT ĐỂ TẠO MÃ QR</h1>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <main>
+    <h2 class="section-title">DANH SÁCH CỔ VẬT</h2>
+
+    <div class="artifacts" id="artifactGrid">
+      <!-- Card 1: có ảnh -->
+      <article class="artifact-card">
+        <div class="artifact-thumb" style="background-image:url('images/lichsu.jpg')"></div>
+        <div class="artifact-body">
+          <div class="artifact-name">Bộ sưu tập hiện vật Sa Huỳnh – Chăm Pa</div>
+          <div class="artifact-meta">Niên đại: ~Thế kỷ III TCN • Chất liệu: Đá</div>
+          <div class="artifact-actions">
+            <button class="btn primary" type="button" id="goQR">Xem thông tin</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2: placeholder -->
+      <article class="artifact-card placeholder">
+        <div class="artifact-thumb"style="background-image:url('images/binhgom.jpg')"></div>
+        <div class="artifact-body">
+          <div class="artifact-name">Bình gốm Chăm</div>
+          <div class="artifact-meta">Đang cập nhật nội dung</div>
+          <div class="artifact-actions">
+            <button class="btn" type="button">Xem</button>
+            <button class="btn" type="button">Chọn QR</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3: placeholder -->
+      <article class="artifact-card placeholder">
+        <div class="artifact-thumb"style="background-image:url('images/riuda.jpg')"></div>
+        <div class="artifact-body">
+          <div class="artifact-name">Rìu đá cổ</div>
+          <div class="artifact-meta">Đang cập nhật nội dung</div>
+          <div class="artifact-actions">
+            <button class="btn" type="button">Xem</button>
+            <button class="btn" type="button">Chọn QR</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4: placeholder -->
+      <article class="artifact-card placeholder">
+        <div class="artifact-thumb"style="background-image:url('images/mochum.jpg')"></div>
+        <div class="artifact-body">
+          <div class="artifact-name">Mộ chum Sa Huỳnh</div>
+          <div class="artifact-meta">Đang cập nhật nội dung</div>
+          <div class="artifact-actions">
+            <button class="btn" type="button">Xem</button>
+            <button class="btn" type="button">Chọn QR</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 5: placeholder -->
+      <article class="artifact-card placeholder">
+        <div class="artifact-thumb"style="background-image:url('images/shiva.jpg')"></div>
+        <div class="artifact-body">
+          <div class="artifact-name">Đầu tượng thần Siva</div>
+          <div class="artifact-meta">Đang cập nhật nội dung</div>
+          <div class="artifact-actions">
+            <button class="btn" type="button">Xem</button>
+            <button class="btn" type="button">Chọn QR</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 6: placeholder -->
+      <article class="artifact-card placeholder">
+        <div class="artifact-thumb"style="background-image:url('images/thapdong1.webp')"></div>
+        <div class="artifact-body">
+          <div class="artifact-name">Thạp đồng Đông Sơn</div>
+          <div class="artifact-meta">Đang cập nhật nội dung</div>
+          <div class="artifact-actions">
+            <button class="btn" type="button">Xem</button>
+            <button class="btn" type="button">Chọn QR</button>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div style="margin-top:12px; color:#6B7280">Chọn cổ vật để chuyển sang trang tạo QR</div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div>
+        <div class="foot-title">BẢO TÀNG ĐÀ NẴNG</div>
+        <div class="foot-muted">Bảo tàng Đà Nẵng tọa lạc tại địa điểm 42 – 44 Bạch Đằng và 31 Trần Phú; trong đó, tòa nhà 42 Bạch Đằng là trụ sở chính.</div>
+      </div>
+      <div>
+        <div class="foot-title">LIÊN HỆ</div>
+        <div class="foot-muted">Lê Viết Thịnh - 0989485028</div>
+        <div class="foot-muted">levietthinh2222006@gmail.com</div>
+      </div>
+      <div>
+        <div class="foot-title">KẾT NỐI</div>
+        <form onsubmit="return false" style="display:flex; gap:8px;">
+          <input type="email" placeholder="Nhập email" style="flex:1; padding:8px 10px; border-radius:10px; border:1px solid #f1cba7; background:#fff" />
+          <button class="btn" type="button">Gửi</button>
+        </form>
+      </div>
+    </div>
+    <div class="copy"><small>© 2025 Demo</small></div>
+  </footer>
+
+  <!-- Script cho nút QR card 1 -->
+  <script>
+    (function(){
+      const btn = document.getElementById('goQR');
+      if(btn){
+        btn.addEventListener('click', ()=>{
+          const url = new URL(location.origin + location.pathname.replace('index_main_footer_fixed.html','') + 'artifact_qr.html');
+          url.searchParams.set('lang','vi');
+          url.searchParams.set('id','sa_huynh_cham_collection');
+          window.open(url.toString(), '_self');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
