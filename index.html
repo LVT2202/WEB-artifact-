@@ -217,7 +217,7 @@
       const btn = document.getElementById('goQR');
       if(btn){
         btn.addEventListener('click', ()=>{
-          const url = new URL(location.origin + location.pathname.replace('index_main_footer_fixed.html','') + 'artifact_qr.html');
+          const url = new URL(location.origin + location.pathname.replace('index','') + 'artifact_qr.html');
           url.searchParams.set('lang','vi');
           url.searchParams.set('id','sa_huynh_cham_collection');
           window.open(url.toString(), '_self');
